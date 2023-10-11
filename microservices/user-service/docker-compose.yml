@@ -1,0 +1,22 @@
+version: '3'
+services:
+  user-service:
+    build: .
+    ports:
+      - '3000:3000'
+    depends_on:
+      - postgres
+    environment:
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+      # other environment variables...
+
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - ./initdb-scripts:/docker-entrypoint-initdb.d/
